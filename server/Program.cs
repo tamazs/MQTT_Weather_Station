@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Mqtt.Controllers;
@@ -70,6 +71,8 @@ app.UseCors(c =>
         .SetIsOriginAllowed(_ => true));
 
  var mqttClient = app.Services.GetRequiredService<IMqttClientService>();
- await mqttClient.ConnectAsync(connectionStrings.MqttBroker, connectionStrings.MqttPort, "", "");
+ Console.WriteLine(JsonSerializer.Serialize(connectionStrings));
+ await mqttClient.ConnectAsync(connectionStrings.MqttBroker, 1883);
+ app.GenerateApiClientsFromOpenApi("../client/src/generated-ts-client.ts", "./openapi.json").GetAwaiter().GetResult();
 
 app.Run();

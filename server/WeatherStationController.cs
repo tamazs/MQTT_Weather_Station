@@ -1,12 +1,13 @@
+namespace server;
+
 using System.Text.Json;
 using Mqtt.Controllers;
-using server;
 
 public class IotController(ILogger<IotController> logger,
     MyDbContext db
 ) : MqttController
 {
-    [MqttRoute("station/tm_wt_station/sensor/{sensorId}/telemetry")]
+    [MqttRoute("station/tm_wt_station/sensor/+/telemetry")]
     public async Task ListenForMeasurements(Measurement m, string sensorId)
     {
         logger.LogInformation(JsonSerializer.Serialize(m));
